@@ -230,5 +230,106 @@ It has 3 main components:
 @Dao
 @Database, and many more.
 ```
+# Kotlin Specific Questions
 
+### Q.) Why should we use Kotlin, and how does it work exactly?
+**Ans** **Kotlin** is an object-oriented and functional programming language. It is an improved version of Java to reduce the risk of run-time errors with the use of compile-time checks and better performance solutions than Java. We have a few use cases that prove that Kotlin is a better option than Java for Android Development.
+1. **Null Safety**: Kotlin doesn’t allow the creation of null objects due to compile-time checks. With the help of compile-time checks, we can reduce the risk of Null Pointer exception.
+    > A few ways to handle nullability are Safe Call operator ( ?. ), Elvish Operator ( ?: ), and Assertion Operator ( !! )
+2. **Extension Functions**: Adding additional new functionality in existing class without making any change in code or without inheriting from a class. For example, ImageView.loadImage(url: String), String.formattedText(input : String)
+3. **Coroutines Support**: Kotlin provides a solution to handle the asynchronous operations and concurrency simply and efficiently. It is a lightweight thread that allows you to write asynchronous code sequentially, making it easier to manage background tasks like network requests and database operations. For example, CoroutineScope(Dispatchers.IO).launch { }
+4. **Data Class**: This class is used to hold the data without creating getter and setter methods. Use cases of Data class is request and response class for network api call. For example, data class User(var name: String, var id: Int)
+5. **Functional Programming**: It means to handle the computation of mathematical functions.
+    1. **High Order Functions**:  This type of function accepts function as an input parameter and as a return type. 
+    2. **Lamda Expression**: It is an anonymous function without any specific names. We can use this as a functional literal to execute mathematical expressions.
+6. **Smart Casts**: Automatically casts a variable to its target type after checking conditions.
+7. **Interoperability with Java**: Kotlin can seamlessly interact with Java code, enabling easy migration from Java to Kotlin.
 
+### Q.) What is the difference between const, val and var in Kotlin?
+**Ans** **val** (value) is used for read-only variables, which means they cannot be reassigned after initialization (like final in Java).<br />
+	**var** is used for mutable variables, which can be reassigned any number of times.  <br />
+**Real-Time Example**:
+	val x = 10   // Read-only, cannot be reassigned
+	x = 20       // Error: Val cannot be reassigned
+
+	var y = 15   // Mutable, can be reassigned
+	y = 30       // Okay, no problem
+
+**const**, It represents an immutable, final variable in nature like val, i.e. read-only properties. The difference here is that const is used for variables that are known at **compile time**. It means no values must be assigned at runtime to a const variable.
+For example, const val AUTHOR_NAME = “Satnam"
+In Java, final static String AUTHOR_NAME = “Satnam";
+
+**Properties**:  1. Must be at the top level or a member of an object or a companion object.
+2. Start from a primitive data type.
+
+### Q.) What are the parameters and arguments?
+**Ans** **Parameters**, defined variable names with their data types. <br />
+For example, fun add(num1: Int, num2: Int) = num1 + num2
+// num1 and num2 are parameters
+// By default num1 and num2 are val variables
+
+**Arguments**, passing value for those parameters while calling the functions.<br />
+For example, add(5,7) // 5 and 7 are arguments
+
+### Q.) What is String, and how does it store values? 
+**Ans**. **String** is the final class, and it is used to create objects to store literal values in their memory areas.<br />
+**Heap Area**<br />
+**SCP/SLP**( String Constant Pool/ String Literal Pool)
+
+For e.g. String s1 = new String(“Test”);<br />
+         Here, it will create 2 objects. <br />
+	     It will store value. 1 object in Heap Memory and 1 object will be stored in SCP.<br />
+String s2 = “Test1”;<br />
+Here, it will create only one object, which will be stored as a value in SCP. It will not create a new object if the same value is already available. It will reuse that value.
+
+### Q.) What are the Array and List?
+**Ans**. **Array**, It is an object that stores multiple values with the same data type and with a fixed size.<br />
+For example, var arr = arrayOf(“One”,”Two”,”Three”)<br />
+**List**, It is an object that stores multiple values with different data types and with a dynamic size.<br />
+For example, var list = listOf(“One”,”Two”,”Three”)<br />
+
+### Q.) What are the differences between Ranges of for loop(.. and until)?
+**Ans**. **1..5**, It means that it will check the value from 1 to 5 like 1,2,3,4,5. <br />
+For example, for(i in 1..5){ println(i) }<br />
+**1 until 5**, It means that it will check the value from 1 to 4 like 1,2,3,4. <br />
+For example, for(i in 1..5){ println(i) }
+
+### Q.) What is a data class in Kotlin, and why should we use it?
+**Ans**. A **data class** is a kotlin class that is primarily used to hold the data. Kotlin automatically provides methods like toString(), equals(), hashCode(), and copy() for data classes.<br />
+**Use cases**:<br/>
+* **Reducing boilerplate**: You don't need to manually define getters, setters, toString(), or equals() methods.<br />
+* **Copying objects**: You can easily copy an object with modifications.<br />
+	Real-Time Example:
+	data class User(val name: String, val age: Int)
+
+	val user1 = User("Satnam", 25)
+	val user2 = user1.copy(age = 26)  // Create a copy with age updated
+
+	println(user1)   // Output: User(name=Satnam, age=25)
+	println(user2)   // Output: User(name=Satnam, age=26)
+
+### Q.) What are extension functions in Kotlin, and how do they work internally?
+**Ans**. **Extension functions** allow you to add new functionality to existing classes without modifying their source code. It is a powerful feature in Kotlin, especially useful when dealing with third-party libraries.<br/>
+**Real-Time Example**: <br/>
+Imagine you want to add a isEmailValid() function to the String class:<br/>
+> fun String.isEmailValid(): Boolean {<br/>
+>   return this.contains("@") && this.contains(".")<br/>
+> }
+
+> val email = "test@example.com" <br/>
+> println(email.isEmailValid())  // Output: true
+
+Here, we added the isEmailValid() function to the String class without modifying its code.
+
+### How does it work internally?
+When we call extension function on an object, the compiler passes the object as the first argument to the function.
+For example, 
+> public static final void loadImage(ImageView imageView, String url) {<br/>
+>      Glide.with(imageView).load(url).into(imageView);<br/>
+>   }
+
+**A final note**:<br/>
+* Extension functions are defined outside the class they extend.<br/>
+* They can access the public members of the extended class.<br/>
+* They cannot access the class's private or protected members.<br/>
+* They do not modify the actual class but appear to add new methods.
