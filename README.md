@@ -309,7 +309,7 @@ For example, for(i in 1..5){ println(i) }
 	println(user2)   // Output: User(name=Satnam, age=26)
 
 ### Q.) What are extension functions in Kotlin, and how do they work internally?
-**Ans**. **Extension functions** allow you to add new functionality to existing classes without modifying their source code. It is a powerful feature in Kotlin, especially useful when dealing with third-party libraries.<br/>
+**Ans**. **Extension functions** allow you to add new functionality to existing classes without modifying their source code. It is a powerful feature in Kotlin, handy when dealing with third-party libraries.<br/>
 **Real-Time Example**: <br/>
 Imagine you want to add a isEmailValid() function to the String class:<br/>
 > fun String.isEmailValid(): Boolean {<br/>
@@ -319,10 +319,10 @@ Imagine you want to add a isEmailValid() function to the String class:<br/>
 > val email = "test@example.com" <br/>
 > println(email.isEmailValid())  // Output: true
 
-Here, we added the isEmailValid() function to the String class without modifying its code.
+We added the isEmailValid() function to the String class without modifying its code.
 
 ### How does it work internally?
-When we call extension function on an object, the compiler passes the object as the first argument to the function.
+When we call an extension function on an object, the compiler passes the object as the first argument to the function.
 For example, 
 > public static final void loadImage(ImageView imageView, String url) {<br/>
 >      Glide.with(imageView).load(url).into(imageView);<br/>
@@ -333,3 +333,305 @@ For example,
 * They can access the public members of the extended class.<br/>
 * They cannot access the class's private or protected members.<br/>
 * They do not modify the actual class but appear to add new methods.
+
+### Q.) What are coroutines in Kotlin, and why are they important?
+**Ans**. **Coroutines** are a Kotlin feature designed to simplify asynchronous programming and concurrency. They are lightweight threads that allow you to write asynchronous code sequentially, making it easier to manage background tasks like network requests, database operations, and more.
+* **suspend functions**: Functions that can be paused and resumed without blocking the thread.<br />
+* **launch**: Starts a coroutine.<br />
+* **async**: Starts a coroutine that returns a result.<br />
+
+**Real-Time Example**: <br/>
+import kotlinx.coroutines.*<br/>
+> fun main() = runBlocking {<br/>
+>   val result = async { fetchDataFromNetwork() }<br/>
+> println("Data: ${result.await()}")  // Suspend function, it waits until data is fetched<br/>
+> }
+
+> suspend fun fetchDataFromNetwork(): String {<br/>
+>   delay(2000)  // Simulate network delay<br/>
+> return "Network Data"<br/>
+> }
+
+> Here, fetchDataFromNetwork() is a suspend function that simulates a network call. The async function starts the coroutine, and await() is used to get the result once the coroutine completes.
+
+
+### Q.) What are the scope functions in Kotlin, and why are they important?
+**Ans**. **Scope Functions**: These functions are used to execute a block of code within the context of an object. There are a few types of scope functions: let, run, with, apply and also.<br/>
+
+**let**: It is often used to execute a code block containing non-null values. To perform actions on a non-null object, use the safe call operator ?. on it and call let with the actions in its lambda.<br/>
+>	val str: String? = "Hello"<br/>   
+>	//processNonNullString(str)       // compilation error: str can be null<br/>
+>	val length = str?.let {<br/> 
+> 	   println("let() called on $it")        
+>	    processNonNullString(it)      // OK: 'it' is not null inside '?.let { }'<br/>
+>	    it.length<br/>
+>	}<br/>
+
+**run**: It is useful when your lambda both initializes objects and computes the return value.<br/>
+>		val services = ApiService(“URL”, 80)
+>		val result = service.run {
+>  		port = 8080
+>    		query(prepareRequest() + " to port $port")
+>		}
+
+**with**: It is not an extension function: the context object is passed as an argument, but inside the lambda, it's available as a receiver (this). We recommend using “with” for calling functions on the context object when you don't need to use the returned result. In code, “with” can be read as " with this object, do the following. "<br/>
+>	val numbers = mutableListOf("one", "two", "three")<br/>
+>	with(numbers) {<br/>
+>    		println("'with' is called with argument $this")<br/>
+>   	 	println("It contains $size elements")<br/>
+>	}<br/>
+
+**apply**: It is used for object configuration and initialization. The return value is the object itself.<br/>
+>	val user = Person("CU Tech”).apply {<br/>
+>    		age = 32<br/>
+>    		city = "London"      
+>	    }<br/>
+>	println(user)<br/>
+
+**also**: Similar to apply, but returns the object after performing actions inside the block.<br/>
+>		val numbers = mutableListOf("one", "two", "three")
+>		numbers.also { println("The list elements before adding new one: $it") }
+>  		 .add("four")
+
+### Q.) Explain the concept of smart casting in Kotlin.
+**Ans**. Kotlin uses **smart casting** to automatically cast an object to a target type once it has been checked for the type. This helps to reduce the need for explicit casts.<br/>
+**Real-Time Example**:
+>	fun printLength(input: Any) {<br/>
+>    	if (input is String) {  // Smart casting<br/>
+>        	println(input.length)  // No need for explicit casting, input is automatically a String<br/>
+>    		}<br/>
+>	}<br/>
+>	printLength("Hello")  // Output: 5<br/>
+
+In this example, after checking if input is of type String, Kotlin automatically casts input to String within the if block.<br/>
+
+### Q.) What is the sealed class in Kotlin?
+**Ans**: A **sealed class** is a class that restricts the class hierarchy to a limited set of subclasses. Sealed classes are used when you want to represent a limited set of possible types, such as states or responses.<br/>
+**Real-Time Example**:
+>sealed class Result {<br/>
+>	data class Success(val message: String) : Result()<br/>
+>	data class Error(val error: String) : Result()<br/>
+>}
+
+>fun getData(): Result {<br/>
+>    return Success("Data loaded successfully")<br/>
+>}
+
+>val result = getData()<br/>
+>when (result) {<br/>
+>    is Success -> println(result.message)<br/>
+>    is Error -> println(result.error)<br/>
+>}
+>
+In this example, the Result class is sealed, and only Success and Error can inherit from it. This makes it easier to handle all possible cases in a when statement.
+
+### Q.) Difference between Enum and Sealed classes?
+**Ans**. **Enum classes**:  In enum classes, each enum value cannot have its unique property. You are forced to have the same property for each enum value:  
+
+>enum class DeliveryStatus(val trackingId: String?) {
+>    PREPARING(null),<br/>
+>    DISPATCHED("27211"),<br/>
+>    DELIVERED("27211"),<br/>
+>}  
+
+Here we need the trackingId only for the DISPATCHED and DELIVERED, the PREPARING is forced to have a null value.  Sealed Class: 
+In the case of sealed classes, we can have different properties for each subtype:  
+
+>sealed class DeliveryStatus {<br/>
+>	class Preparing() : DeliveryStatus()<br/>
+>	class Dispatched(val trackingId: String) : DeliveryStatus()<br/>
+>	class Delivered(val trackingId: String, val receiversName: String) : DeliveryStatus() }<br/>
+
+Here, we have different properties for each subtype. Preparing doesn't need properties for our use case, so we have the flexibility to not specify any property, unlike forced null values in enums. Dispatched has one property, while the Delivered has two properties.
+
+**Inheritance**
+**Enum**
+Since enum values are objects, they cannot be extended: 
+>class LocallyDispatched : DeliveryStatus.DISPATCHED { }    // Error
+
+The enum class is implicitly final, so it cannot be extended by other classes: 
+>class FoodDeliveryStatus : DeliveryStatus() { }            // Error
+
+Enum classes cannot extend other classes, they can only extend interfaces: 
+>open class OrderStatus { }<br/>
+>interface Cancellable { }
+
+>enum class DeliveryStatus : OrderStatus() { }              // Error<br/>
+>enum class DeliveryStatus : Cancellable { }                // OK  Sealed Class
+
+Since sealed class' subtypes are types, they can be extended: 
+>class LocallyDispatched : Dispatched() { }                 // OK
+
+The sealed class itself can be extended, of course!: 
+>class PaymentReceived : DeliveryStatus()                   // OK”
+
+Sealed classes can extend other classes as well as interfaces: 
+>open class OrderStatus { }<br/>
+>interface Cancellable { }<br/>
+>sealed class DeliveryStatus : OrderStatus() { }           // OK<br/>
+>sealed class DeliveryStatus : Cancellable { }             // OK<br/>
+
+
+### Q.) How does Kotlin handle null safety?
+**Ans**: Kotlin uses **nullable types** to handle null safety. A type can be declared nullable by adding a ? to its type. This prevents null pointer exceptions (NPEs) by forcing developers to explicitly handle the possibility of null.
+
+* Safe calls (?.): Allow you to call a method or access a property on a nullable object and return null if the object is null.
+* Elvis operator (?:): Provides a default value when an expression evaluates to null.
+* !! (the "assert not null" operator): Forces a nullable value to be non-null and throws a NullPointerException if the value is null.
+  
+**Real-Time Example**:
+>val name: String? = null
+>println(name?.length)   // Safe call, prints null
+
+>val length = name?.length ?: 0  // Elvis operator: if null, return
+
+### Q.) What is the difference between Hot flow and Cold flow in kotlin?
+**Ans**. **Hot Flow**: Hot flow means producers keep producing the data continuously even if no receiver or consumer is available.
+**For example**, Channels.
+
+>val channel = Channel<Int>()
+>channel.send(5) // For Updating value
+>channel.receive() // For receiving value
+
+**Cold Flow**: Cold flow means producers will not emit or produce any data until no collector or consumer is available.
+**For example**, Flows.
+
+>fun simple(): Flow<Int> = flow {
+>emit(5) // To update the value
+>}
+
+>simple().collect { value -> println(value) }  // Collect the flow
+
+### Q.) What is SharedFlow and Stateflow?
+**Ans**. **SharedFlow**: It is a hot nature flow that doesn’t maintain the state, so if the producer produces the values, the consumer can consume the same values. But, if any consumer joins late, that consumer will lose the initial value.
+
+**StateFlow**: It is also a hot nature flow, but it maintains the state. If the producer produces the values, the consumer can consume the latest value. Still, if any consumer joins late, that consumer will also receive the latest or last value.
+
+**For example**, when a movie starts at a specific given time, only available persons can watch from starting, if anyone joins late then that person will be lost the initial part of the movie. This is a shared flow.
+ 
+In the **hot stream case**, the flow will continue emitting the values continuously, whether collectors are available or not.
+
+### Q.) Difference between Live Data and StateFlow
+**Ans**. We have 3 common and major differences between both. So, let's discuss:
+1. **Transformations on Main Thread**: In live data, all the relevant operators will execute on the main thread, but in State Flow, we have the flowOn function, so we can execute on any other thread, such as IO, Main, or default. We just need to add dispatchers there.<br/>
+2. **Operators**: In Live data, we have limited operators and in state flow, we have more operators than live data. So, we can use it accordingly.<br/>
+3. **LifeCycle Dependent**: It means that live data is a life cycle awareness, so live data needs a lifecycle whether we need to use it in an activity or fragment, etc. At this point, we have some places where we don’t have a lifecycle, like a repository, so now Stateflow is recommended to use there because we just need coroutine scope, not lifecycle.<br/>
+
+### Q.) What are Suspend Functions, and why do we need these?
+**Ans**. **Suspend functions** help to start, pause and resume the operations. Suppose we have one IO operation, and then the suspend function will suspend the thread, and once we get the response, it will resume the task.
+**Suspend function** will return only a single object, not a single value.   
+**For example**, User or List<User>.  Suspend functions work great for things like the following-
+1. Storing some value in the database
+2. Network calls
+3. Doing a task that returns a single object 
+
+### Q.) What is Kotlin Flows, and why do we need it?
+**Ans**. **Kotlin flow** is used to handle the asynchronous stream data. Stream data means it will return value eventually (one by one), while Coroutine will return a single object at a time.
+
+In some scenarios where we have to use stream data-
+1. Video Streaming
+2. FM radio
+3. Mobile phones send audio signals to Bluetooth speakers.
+4. GPS locations
+5. Stock market data
+
+So, we need streams to handle these types of data. In Kotlin, we have Channels and flows to handle these types of data.
+
+### Q.) What is the superclass or base class for all the classes in kotlin?
+**Ans**. All classes in Kotlin have a common superclass, **Any**, which is the default superclass for a class with no supertypes declared.
+
+**For example**, class Example // Implicitly inherits from Any
+
+### Q.) What is context switching? Ans. Context Switching: 
+**In coroutine**: withContext(Dispatcher.IO) { }  
+
+**In flow**: flowOn(Dispatcher.IO)
+
+### Q.) Explain Kotlin coroutine in detail. 
+**Ans**. **Kotlin Coroutine** : It becomes with two words like below:
+
+**Co + Routines** = **Co** means **Cooperation** and **Routine** means **function**
+
+It means when the functions are **co-operating with each other**, that is called a **Coroutine**.
+
+**Few Important points**:
+* Coroutines are executed inside a thread.
+* One thread can have multiple coroutines.
+* Coroutines are very cheap.
+* Threads have a limitation to create, but there is no limitation for coroutines. 
+* Coroutines are just like threads, but not quite the same; that's why we call them lightweight threads.
+* Coroutines work on top of threads. It means it is a separate framework, and we usually interact with that framework, and the framework interacts with threads internally.
+
+### How to create a coroutine and what is required to create a coroutine?
+> Coroutine Scope - Lifetime of coroutine
+> Coroutine Context - Threads
+
+**Scope** means it is just like a boundary where we create our coroutines. 
+
+### Why do we need scopes?
+We have a few components in Android, like activity, fragments and applications. We want to destroy or cancel the coroutine once no scope or requirement for that component; that’s why we need to define these scopes. With those components, the coroutine will also be destroyed or cancelled automatically.<br/>
+**Types of Coroutine Scope** : 
+
+* Coroutine Scope
+* Global Scope
+* ViewModel scope
+* Lifecycle Scope
+* Main Scope
+
+**Coroutine Context** -> It will provide the information on which thread Coroutine will execute, e.g. Dispatchers. We have three types of Dispatchers: > Dispatchers.IO - For background tasks<br/>
+> Dispatchers.Main - For Main thread to update UI  part<br/>
+> Dispatchers.Default - For Default scenarios ( Separate worker thread)
+
+>CoroutineScope(Dispatchers.IO).launch {  }<br/> 
+>CoroutineScope(Dispatchers.Main).launch {  }<br/> 
+>CoroutineScope(Dispatchers.Default).launch {  }<br/> 
+>CoroutineScope(Dispatchers.IO).async {  }<br/> 
+>GlobalScope.launch(Dispatchers.IO) {  }<br/> 
+>MainScope().launch(Dispatchers.IO) {  }<br/>
+
+**Coroutines** help us to implement the functionality that can be suspended & later resumed at specific points without blocking the thread.
+
+**Coroutine Builders** are two types:
+
+1.) Async<br/>
+2.) Launch
+
+“**async** - Async function returns a deferred object, and we use an async function when we need to get the result as expected”.<br/> 
+>val deferred = CoroutineScope(Dispatchers.IO).async {  }
+
+deffered.await() await function will help us to get the result.
+
+“**Launch** - Launch function doesn’t return any result, and it is just like fire and forget.” It will return a job object which will be used to cancel the job”.<br/>
+>val job = CoroutineScope(Dispatchers.IO).launch {  }<br/>
+>job.cancel()
+
+### Q.) What are lambda functions?
+**Ans**.  Lambda expressions and anonymous functions are function literals. Function literals are functions that are not declared but are passed immediately as an expression
+
+### Q.) What are high-order functions?
+**Ans**. A **higher-order function** is a function that takes functions as parameters or returns a function.
+
+### Q.) What is the use of a distinct function?
+**Ans**. **Distinct Functions** remove exact duplicates from the list of items.
+
+**For example**, 
+>val items = listOf("One”,”Two”,”Three”,”Two”,”One”,”Four”)<br/>
+>val distinct = items.distinct(). // Using distinct to remove exact duplicates
+
+### Q.) What is the Inline function, and how does it work internally?
+**Ans**. **Inline function** instructs the compiler to insert the complete body of the function wherever that function gets used in the code. 
+
+**For example**,  	
+
+>fun guide() {<br/>
+>    		print("guide start")<br/>
+>    		teach()<br/>
+>    		print("guide end")<br/>
+>	}
+
+>	inline  fun teach() {<br/>
+>    		print("teach")<br/>
+>	}
+>
+For more deep knowledge, please follow the link: https://outcomeschool.com/blog/inline-function-in-kotlin
+
