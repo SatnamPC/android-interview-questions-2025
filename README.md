@@ -633,5 +633,120 @@ deffered.await() await function will help us to get the result.
 >    		print("teach")<br/>
 >	}
 >
-For more deep knowledge, please follow the link: https://outcomeschool.com/blog/inline-function-in-kotlin
+For more profound knowledge, please follow the link: https://outcomeschool.com/blog/inline-function-in-kotlin
 
+### Q.) What are the uses of the crossinline function and non-inline in kotlin?
+**Ans**. **Crossinline** in Kotlin is the solution to avoid non-local returns.<br/>
+When we add the crossinline, it will not allow us to put the return inside that lambda.<br/>
+**For example**, inline fun teach(abc: () -> Unit) {}<br/>
+For deeper knowledge, please follow the link: https://outcomeschool.com/blog/crossinline-in-kotlin <br/>
+**Noinline**: You have multiple lambdas in your inlined function, and you don’t want all of them to be inlined. You can mark the lambdas you don’t want to be inlined with the noinline keyword:<br/>
+For example, inline fun teach(abc: () -> Unit, noinline xyz: () -> Unit) {}<br/>
+For deeper knowledge, please follow the link: https://medium.com/android-news/inline-noinline-crossinline-what-do-they-mean-b13f48e113c2 
+### Q.) What are the uses of the lateinit and lazy keywords?
+**Ans**. **lateinit** in Kotlin is useful in a scenario when we do not want to initialize a variable at the time of the declaration and want to<br/> initialize it at some later point in time, but we make sure that we initialize it before use.<br/> 
+**For example**, private lateinit var user: User<br/>
+**Lazy** in Kotlin is useful in a scenario when we want to create an object inside a class, but that object creation is expensive, and that might lead to a delay in the creation of the object that is dependent on that expensive object.<br/>
+**For example**, private val user: User by lazy { User() }<br/>
+
+### Q.) What is the difference between run and runBlocking?
+**Ans**. **runBlocking** is a part of coroutines, and it provides the suspending function under a lambda expression, so it blocks the main thread until it executes the suspending function.<br/>
+A few use cases of runBlocking are: In Auth Interceptors and Unit test cases<br/>
+>	runBlocking {
+>		delay(1000L)
+>		println(“Print Value”)
+>	}
+
+**Run** is a scope function in the standard Kotlin library. It can modify the original object and return any type, not only the object itself. On the other hand, apply always returns the object itself, which is excellent for chaining object configuration. Run can operate independently of an object, but apply always requires an object to work with.<br/>
+
+> run { println(“Print the value”) } or user.run { name = “Updated Value” }
+
+# Coding Round Questions: 
+
+### Q.) How many threads will be created in the below-mentioned statement?
+>	for (i in 1..10000) {<br/>
+>    	CoroutineScope(Dispatchers.IO).launch {<br/>
+>        		println("Print Value $i")<br/>
+>   	     }<br/>
+>	}
+
+ **Ans**. In the above-mentioned statement, one thread will be created because we use dispatchers to decide which thread to execute the task, like IO (Background), Main (UI), or the default thread. Here, multiple coroutines will be created as per the loop target value because multiple coroutines can be executed on one thread.<br/>
+
+### Q.) What is missing in the below-mentioned statement to execute the code?<br/>
+>	fun main() = runBlocking {<br/>
+>    	val task = GlobalScope.launch {<br/>
+>			delay(2000L)<br/>
+>        		println("Print Value")<br/>
+>   	     }<br/>
+>	}
+
+**Ans**. In the above-mentioned statement, we need to add task.join().
+
+### Q.) Could you please write a code for a high-order function and a lambda function?
+**Ans**. **High-order function**: 
+
+> val res = addMe(2,4) { a, b -> a + b }
+> println(res) // Output will be 6
+
+>fun addMe(a:Int, b:Int, ab : (Int, Int) -> Int): Int  {
+>    return ab(a,b)
+>}
+
+
+**lambda function**:
+
+>val square: (Int, Int) -> Int = { a, b -> a * b }
+>
+>val nine = sqaure(3, 3)
+>
+>println(nine) // Output will be 9
+
+### Q.) Print the vowels from given input string with count of each vowels?<br/>
+**Solutions**: <br/>
+
+>fun main() {<br/>
+	val countVowels = countVowels("Satnam Singh”)<br/>
+	println(“Print the values $countVowels”)<br/>
+}<br/>
+fun countVowels(str: String): Map<Char, Int>{<br/>
+    val vowels = listOf('a','e','i','o','u')<br/>
+    val mapData = mutableMapOf<Char, Int>()<br/>
+    for (char in str.lowercase()){<br/>
+        if (char in vowels) {<br/>
+            mapData[char] = (mapData[char] ?: 1) +1<br/>
+        }<br/>
+    }<br/>
+    return mapData<br/>
+}
+
+### Q.) Print the City and State from the given input string?<br/>
+>	Input  = "Haryana-Kaithal, Punjab-Amritsar, Haryana-Jind"<br/>
+>	OutPut = "{haryana=[Kaithal, Jind], punjab=[Amritsar]}"<br/>
+
+**Solutions**:<br/> 
+
+>fun main(){<br/>
+	val data = printStateWithCity("Haryana-Kaithal, Punjab-Amritsar, Haryana-Jind")<br/>	
+	println(data)<br/>
+}
+
+fun printStateWithCity(input: String): Map<String, List<String>> {<br/>
+    val mapData = mutableMapOf<String, MutableList<String>>()<br/>
+    val afterSplit = input.split(",")
+
+    for (str in afterSplit) {
+        val first = str.split("-").first().lowercase().trim()
+        val second = str.split("-").getOrNull(1) ?: ""
+
+        var local = mapData[first]
+        println(local)
+        if (local != null) {
+            local.add(second)
+        } else {
+            val i = mutableListOf<String>()
+            i.add(second)
+            mapData[first] = i
+        }
+    }
+    return mapData
+}
