@@ -222,14 +222,13 @@ It has 3 main components:
 2. **Entity** (table) — Data class
 3. **DAO** (Database Access Object) — Interface class; it makes queries on the Entity using API.
 
-```Room Library works with Observable frameworks like Rxjava & Live data.```
+>Room Library works with Observable frameworks like RxJava & LiveData.
 
 **Annotations** are: 
-```
-@Entity 
-@Dao
-@Database, and many more.
-```
+>@Entity   
+>@Dao  
+>@Database, and many more.  
+
 # Kotlin Specific Questions
 
 ### Q.) Why should we use Kotlin, and how does it work exactly?
@@ -249,24 +248,27 @@ It has 3 main components:
 **Ans** **val** (value) is used for read-only variables, which means they cannot be reassigned after initialization (like final in Java).<br />
 	**var** is used for mutable variables, which can be reassigned any number of times.  <br />
 **Real-Time Example**:
+```
 	val x = 10   // Read-only, cannot be reassigned
 	x = 20       // Error: Val cannot be reassigned
 
 	var y = 15   // Mutable, can be reassigned
 	y = 30       // Okay, no problem
+```
 
 **const**, It represents an immutable, final variable in nature like val, i.e. read-only properties. The difference here is that const is used for variables that are known at **compile time**. It means no values must be assigned at runtime to a const variable.
 For example, const val AUTHOR_NAME = “Satnam"
 In Java, final static String AUTHOR_NAME = “Satnam";
 
-**Properties**:  1. Must be at the top level or a member of an object or a companion object.
+**Properties**:  
+1. Must be at the top level or a member of an object or a companion object.
 2. Start from a primitive data type.
 
 ### Q.) What are the parameters and arguments?
-**Ans** **Parameters**, defined variable names with their data types. <br />
-For example, fun add(num1: Int, num2: Int) = num1 + num2
-// num1 and num2 are parameters
-// By default num1 and num2 are val variables
+**Ans** **Parameters**, defined variable names with their data types.  
+For example, fun add(num1: Int, num2: Int) = num1 + num2  
+> num1 and num2 are parameters.
+> By default num1 and num2 are val variables.  
 
 **Arguments**, passing value for those parameters while calling the functions.<br />
 For example, add(5,7) // 5 and 7 are arguments
@@ -276,30 +278,36 @@ For example, add(5,7) // 5 and 7 are arguments
 **Heap Area**<br />
 **SCP/SLP**( String Constant Pool/ String Literal Pool)
 
-For e.g. String s1 = new String(“Test”);<br />
-         Here, it will create 2 objects. <br />
-	     It will store value. 1 object in Heap Memory and 1 object will be stored in SCP.<br />
-String s2 = “Test1”;<br />
-Here, it will create only one object, which will be stored as a value in SCP. It will not create a new object if the same value is already available. It will reuse that value.
+```
+For e.g. String s1 = new String(“Test”);
+         Here, it will create 2 objects.
+	     It will store a value. 1 object in Heap Memory and 1 object will be stored in SCP.
+String s2 = “Test1”;
+```
+>Here, it will create only one object, which will be stored as a value in SCP. It will not create a new object if the same value is already available. It will reuse that value.
 
 ### Q.) What are the Array and List?
 **Ans**. **Array**, It is an object that stores multiple values with the same data type and with a fixed size.<br />
-For example, var arr = arrayOf(“One”,”Two”,”Three”)<br />
-**List**, It is an object that stores multiple values with different data types and with a dynamic size.<br />
-For example, var list = listOf(“One”,”Two”,”Three”)<br />
+>For example, var arr = arrayOf(“One”,”Two”,”Three”)
 
-### Q.) What are the differences between Ranges of for loop(.. and until)?
-**Ans**. **1..5**, It means that it will check the value from 1 to 5 like 1,2,3,4,5. <br />
-For example, for(i in 1..5){ println(i) }<br />
-**1 until 5**, It means that it will check the value from 1 to 4 like 1,2,3,4. <br />
-For example, for(i in 1..5){ println(i) }
+**List**, It is an object that stores multiple values with different data types and with a dynamic size.<br />
+>For example, var list = listOf(“One”,”Two”,”Three”)
+
+### Q.) What are the differences between the Ranges of the for loop(.. and until)?
+**Ans**. **1..5**, It means that it will check the value from 1 to 5, like 1,2,3,4,5.
+>For example, for(i in 1..5){ println(i) }
+
+**1 until 5**, It means that it will check the value from 1 to 4 like 1,2,3,4.
+
+>For example, for(i in 1..5){ println(i) }
 
 ### Q.) What is a data class in Kotlin, and why should we use it?
 **Ans**. A **data class** is a kotlin class that is primarily used to hold the data. Kotlin automatically provides methods like toString(), equals(), hashCode(), and copy() for data classes.<br />
 **Use cases**:<br/>
 * **Reducing boilerplate**: You don't need to manually define getters, setters, toString(), or equals() methods.<br />
 * **Copying objects**: You can easily copy an object with modifications.<br />
-	Real-Time Example:
+#### Real-Time Example:
+```
 	data class User(val name: String, val age: Int)
 
 	val user1 = User("Satnam", 25)
@@ -307,26 +315,32 @@ For example, for(i in 1..5){ println(i) }
 
 	println(user1)   // Output: User(name=Satnam, age=25)
 	println(user2)   // Output: User(name=Satnam, age=26)
+```
 
 ### Q.) What are extension functions in Kotlin, and how do they work internally?
 **Ans**. **Extension functions** allow you to add new functionality to existing classes without modifying their source code. It is a powerful feature in Kotlin, handy when dealing with third-party libraries.<br/>
-**Real-Time Example**: <br/>
-Imagine you want to add a isEmailValid() function to the String class:<br/>
-> fun String.isEmailValid(): Boolean {<br/>
->   return this.contains("@") && this.contains(".")<br/>
-> }
+**Real-Time Example**: 
+Imagine you want to add a isEmailValid() function to the String class:
 
-> val email = "test@example.com" <br/>
-> println(email.isEmailValid())  // Output: true
+```
+fun String.isEmailValid(): Boolean {
+  return this.contains("@") && this.contains(".")
+}
 
-We added the isEmailValid() function to the String class without modifying its code.
+val email = "test@example.com" 
+println(email.isEmailValid())  // Output: true
+```
+
+>We added the isEmailValid() function to the String class without modifying its code.
 
 ### How does it work internally?
 When we call an extension function on an object, the compiler passes the object as the first argument to the function.
 For example, 
-> public static final void loadImage(ImageView imageView, String url) {<br/>
->      Glide.with(imageView).load(url).into(imageView);<br/>
->   }
+```
+ public static final void loadImage(ImageView imageView, String url) {
+      Glide.with(imageView).load(url).into(imageView);
+}
+```
 
 **A final note**:<br/>
 * Extension functions are defined outside the class they extend.<br/>
@@ -340,109 +354,138 @@ For example,
 * **launch**: Starts a coroutine.<br />
 * **async**: Starts a coroutine that returns a result.<br />
 
-**Real-Time Example**: <br/>
-import kotlinx.coroutines.*<br/>
-> fun main() = runBlocking {<br/>
->   val result = async { fetchDataFromNetwork() }<br/>
-> println("Data: ${result.await()}")  // Suspend function, it waits until data is fetched<br/>
-> }
+**Real-Time Example**: 
+```
+import kotlinx.coroutines.*
+fun main() = runBlocking {
+ val result = async { fetchDataFromNetwork() }
+ println("Data: ${result.await()}")  // Suspend function, it waits until data is fetched
+}
 
-> suspend fun fetchDataFromNetwork(): String {<br/>
->   delay(2000)  // Simulate network delay<br/>
-> return "Network Data"<br/>
-> }
+suspend fun fetchDataFromNetwork(): String {
+ delay(2000)  // Simulate network delay
+ return "Network Data"
+}
+```
 
 > Here, fetchDataFromNetwork() is a suspend function that simulates a network call. The async function starts the coroutine, and await() is used to get the result once the coroutine completes.
 
 
 ### Q.) What are the scope functions in Kotlin, and why are they important?
-**Ans**. **Scope Functions**: These functions are used to execute a block of code within the context of an object. There are a few types of scope functions: let, run, with, apply and also.<br/>
+**Ans**. **Scope Functions**: These functions are used to execute a block of code within the context of an object. There are a few types of scope functions: let, run, with, apply and also.
 
-**let**: It is often used to execute a code block containing non-null values. To perform actions on a non-null object, use the safe call operator ?. on it and call let with the actions in its lambda.<br/>
->	val str: String? = "Hello"<br/>   
->	//processNonNullString(str)       // compilation error: str can be null<br/>
->	val length = str?.let {<br/> 
-> 	   println("let() called on $it")        
->	    processNonNullString(it)      // OK: 'it' is not null inside '?.let { }'<br/>
->	    it.length<br/>
->	}<br/>
+**let**: It is often used to execute a code block containing non-null values. To perform actions on a non-null object, use the safe call operator ?. on it and call let with the actions in its lambda.
 
-**run**: It is useful when your lambda both initializes objects and computes the return value.<br/>
->		val services = ApiService(“URL”, 80)
->		val result = service.run {
->  		port = 8080
->    		query(prepareRequest() + " to port $port")
->		}
+```
+	val str: String? = "Hello"   
+	//processNonNullString(str)       // compilation error: str can be null
+	val length = str?.let {
+ 	   println("let() called on $it")        
+	    processNonNullString(it)      // OK: 'it' is not null inside '?.let { }'
+	    it.length
+	}
+```
 
-**with**: It is not an extension function: the context object is passed as an argument, but inside the lambda, it's available as a receiver (this). We recommend using “with” for calling functions on the context object when you don't need to use the returned result. In code, “with” can be read as " with this object, do the following. "<br/>
->	val numbers = mutableListOf("one", "two", "three")<br/>
->	with(numbers) {<br/>
->    		println("'with' is called with argument $this")<br/>
->   	 	println("It contains $size elements")<br/>
->	}<br/>
+**run**: It is useful when your lambda both initializes objects and computes the return value.
 
-**apply**: It is used for object configuration and initialization. The return value is the object itself.<br/>
->	val user = Person("CU Tech”).apply {<br/>
->    		age = 32<br/>
->    		city = "London"      
->	    }<br/>
->	println(user)<br/>
+```
+		val services = ApiService(“URL”, 80)
+		val result = service.run {
+  		port = 8080
+    		query(prepareRequest() + " to port $port")
+		}
+```
 
-**also**: Similar to apply, but returns the object after performing actions inside the block.<br/>
->		val numbers = mutableListOf("one", "two", "three")
->		numbers.also { println("The list elements before adding new one: $it") }
->  		 .add("four")
+**with**: It is not an extension function: the context object is passed as an argument, but inside the lambda, it's available as a receiver (this). We recommend using “with” for calling functions on the context object when you don't need to use the returned result. In code, “with” can be read as " with this object, do the following. "
+
+```
+	val numbers = mutableListOf("one", "two", "three")
+	with(numbers) {
+    		println("'with' is called with argument $this")
+   	 	println("It contains $size elements")
+	}
+```
+
+**apply**: It is used for object configuration and initialization. The return value is the object itself.
+
+```
+	val user = Person("CU Tech”).apply {
+    		age = 32
+    		city = "London"      
+	    }
+	println(user)
+```
+
+**also**: Similar to apply, but returns the object after performing actions inside the block.
+
+```
+		val numbers = mutableListOf("one", "two", "three")
+		numbers.also { println("The list elements before adding new one: $it") }
+  		 .add("four")
+```
 
 ### Q.) Explain the concept of smart casting in Kotlin.
 **Ans**. Kotlin uses **smart casting** to automatically cast an object to a target type once it has been checked for the type. This helps to reduce the need for explicit casts.<br/>
 **Real-Time Example**:
->	fun printLength(input: Any) {<br/>
->    	if (input is String) {  // Smart casting<br/>
->        	println(input.length)  // No need for explicit casting, input is automatically a String<br/>
->    		}<br/>
->	}<br/>
->	printLength("Hello")  // Output: 5<br/>
 
-In this example, after checking if input is of type String, Kotlin automatically casts input to String within the if block.<br/>
+```
+	fun printLength(input: Any) {
+    	if (input is String) {  // Smart casting
+        	println(input.length)  // No need for explicit casting, input is automatically a String
+    		}
+	}
+	printLength("Hello")  // Output: 5
+```
+
+>In this example, after checking if input is of type String, Kotlin automatically casts input to String within the if block.
 
 ### Q.) What is the sealed class in Kotlin?
 **Ans**: A **sealed class** is a class that restricts the class hierarchy to a limited set of subclasses. Sealed classes are used when you want to represent a limited set of possible types, such as states or responses.<br/>
 **Real-Time Example**:
->sealed class Result {<br/>
->	data class Success(val message: String) : Result()<br/>
->	data class Error(val error: String) : Result()<br/>
->}
 
->fun getData(): Result {<br/>
->    return Success("Data loaded successfully")<br/>
->}
+```
+sealed class Result {
+	data class Success(val message: String) : Result()
+	data class Error(val error: String) : Result()
+}
 
->val result = getData()<br/>
->when (result) {<br/>
->    is Success -> println(result.message)<br/>
->    is Error -> println(result.error)<br/>
->}
->
-In this example, the Result class is sealed, and only Success and Error can inherit from it. This makes it easier to handle all possible cases in a when statement.
+fun getData(): Result {
+    return Success("Data loaded successfully")
+}
+
+val result = getData()
+when (result) {
+    is Success -> println(result.message)
+    is Error -> println(result.error)
+}
+```
+
+>In this example, the Result class is sealed, and only Success and Error can inherit from it. This makes it easier to handle all possible cases in a when statement.
 
 ### Q.) Difference between Enum and Sealed classes?
 **Ans**. **Enum classes**:  In enum classes, each enum value cannot have its unique property. You are forced to have the same property for each enum value:  
 
->enum class DeliveryStatus(val trackingId: String?) {
->    PREPARING(null),<br/>
->    DISPATCHED("27211"),<br/>
->    DELIVERED("27211"),<br/>
->}  
+```
+enum class DeliveryStatus(val trackingId: String?) {
+    PREPARING(null),
+    DISPATCHED("27211"),
+    DELIVERED("27211"),
+}
+```
 
-Here we need the trackingId only for the DISPATCHED and DELIVERED, the PREPARING is forced to have a null value.  Sealed Class: 
-In the case of sealed classes, we can have different properties for each subtype:  
+>Here we need the trackingId only for the DISPATCHED and DELIVERED, the PREPARING is forced to have a null value.  
 
->sealed class DeliveryStatus {<br/>
->	class Preparing() : DeliveryStatus()<br/>
->	class Dispatched(val trackingId: String) : DeliveryStatus()<br/>
->	class Delivered(val trackingId: String, val receiversName: String) : DeliveryStatus() }<br/>
+**Sealed Class**: In the case of sealed classes, we can have different properties for each subtype:  
 
-Here, we have different properties for each subtype. Preparing doesn't need properties for our use case, so we have the flexibility to not specify any property, unlike forced null values in enums. Dispatched has one property, while the Delivered has two properties.
+```
+sealed class DeliveryStatus {
+	class Preparing() : DeliveryStatus()
+	class Dispatched(val trackingId: String) : DeliveryStatus()
+	class Delivered(val trackingId: String, val receiversName: String) : DeliveryStatus()
+}
+```
+
+>Here, we have different properties for each subtype. Preparing doesn't need properties for our use case, so we have the flexibility to not specify any property, unlike forced null values in enums. Dispatched has one property, while Delivered has two properties.
 
 **Inheritance**
 **Enum**
@@ -480,26 +523,32 @@ Sealed classes can extend other classes as well as interfaces: 
 * !! (the "assert not null" operator): Forces a nullable value to be non-null and throws a NullPointerException if the value is null.
   
 **Real-Time Example**:
->val name: String? = null
->println(name?.length)   // Safe call, prints null
 
->val length = name?.length ?: 0  // Elvis operator: if null, return
+```
+val name: String? = null
+println(name?.length)   // Safe call, prints null
+
+val length = name?.length ?: 0  // Elvis operator: if null, return
+```
 
 ### Q.) What is the difference between Hot flow and Cold flow in kotlin?
 **Ans**. **Hot Flow**: Hot flow means producers keep producing the data continuously even if no receiver or consumer is available.
 **For example**, Channels.
 
->val channel = Channel<Int>()
->channel.send(5) // For Updating value
->channel.receive() // For receiving value
+```
+val channel = Channel<Int>()
+channel.send(5) // For Updating value
+channel.receive() // For receiving value
+```
 
 **Cold Flow**: Cold flow means producers will not emit or produce any data until no collector or consumer is available.
 **For example**, Flows.
 
->fun simple(): Flow<Int> = flow {
->emit(5) // To update the value
->}
-
+```
+fun simple(): Flow<Int> = flow {
+	emit(5) // To update the value
+}
+```
 >simple().collect { value -> println(value) }  // Collect the flow
 
 ### Q.) What is SharedFlow and Stateflow?
@@ -578,15 +627,17 @@ We have a few components in Android, like activity, fragments and applications. 
 * Lifecycle Scope
 * Main Scope
 
-**Coroutine Context** -> It will provide the information on which thread Coroutine will execute, e.g. Dispatchers. We have three types of Dispatchers: > Dispatchers.IO - For background tasks<br/>
-> Dispatchers.Main - For Main thread to update UI  part<br/>
-> Dispatchers.Default - For Default scenarios ( Separate worker thread)
+**Coroutine Context** -> It will provide the information on which thread Coroutine will execute, e.g. Dispatchers. We have three types of Dispatchers:
 
->CoroutineScope(Dispatchers.IO).launch {  }<br/> 
->CoroutineScope(Dispatchers.Main).launch {  }<br/> 
->CoroutineScope(Dispatchers.Default).launch {  }<br/> 
->CoroutineScope(Dispatchers.IO).async {  }<br/> 
->GlobalScope.launch(Dispatchers.IO) {  }<br/> 
+> Dispatchers.IO - For background tasks<br/>
+> Dispatchers.Main - For Main thread to update UI  part<br/>
+> Dispatchers.Default - For Default scenarios ( Separate worker thread)<br/>
+
+>CoroutineScope(Dispatchers.IO).launch {  }<br/>
+>CoroutineScope(Dispatchers.Main).launch {  }<br/>
+>CoroutineScope(Dispatchers.Default).launch {  }<br/>
+>CoroutineScope(Dispatchers.IO).async {  }<br/>
+>GlobalScope.launch(Dispatchers.IO) {  }<br/>
 >MainScope().launch(Dispatchers.IO) {  }<br/>
 
 **Coroutines** help us to implement the functionality that can be suspended & later resumed at specific points without blocking the thread.
@@ -601,7 +652,8 @@ We have a few components in Android, like activity, fragments and applications. 
 
 deffered.await() await function will help us to get the result.
 
-“**Launch** - Launch function doesn’t return any result, and it is just like fire and forget.” It will return a job object which will be used to cancel the job”.<br/>
+“**Launch** - Launch function doesn’t return any result, and it is just like fire and forget.” It will return a job object which will be used to cancel the job”.
+
 >val job = CoroutineScope(Dispatchers.IO).launch {  }<br/>
 >job.cancel()
 
@@ -615,24 +667,25 @@ deffered.await() await function will help us to get the result.
 **Ans**. **Distinct Functions** remove exact duplicates from the list of items.
 
 **For example**, 
->val items = listOf("One”,”Two”,”Three”,”Two”,”One”,”Four”)<br/>
+>val items = listOf("One”,”Two”,”Three”,”Two”,”One”,”Four”)
+
 >val distinct = items.distinct(). // Using distinct to remove exact duplicates
 
 ### Q.) What is the Inline function, and how does it work internally?
 **Ans**. **Inline function** instructs the compiler to insert the complete body of the function wherever that function gets used in the code. 
 
 **For example**,  	
+```
+fun guide() {
+	print("guide start")
+	teach()
+	print("guide end")
+        }
 
->fun guide() {<br/>
->    		print("guide start")<br/>
->    		teach()<br/>
->    		print("guide end")<br/>
->	}
-
->	inline  fun teach() {<br/>
->    		print("teach")<br/>
->	}
->
+inline  fun teach() {
+	print("teach")
+	}
+```
 For more profound knowledge, please follow the link: https://outcomeschool.com/blog/inline-function-in-kotlin
 
 ### Q.) What are the uses of the crossinline function and non-inline in kotlin?
@@ -650,88 +703,104 @@ For deeper knowledge, please follow the link: https://medium.com/android-news/in
 **For example**, private val user: User by lazy { User() }<br/>
 
 ### Q.) What is the difference between run and runBlocking?
-**Ans**. **runBlocking** is a part of coroutines, and it provides the suspending function under a lambda expression, so it blocks the main thread until it executes the suspending function.<br/>
-A few use cases of runBlocking are: In Auth Interceptors and Unit test cases<br/>
->	runBlocking {
->		delay(1000L)
->		println(“Print Value”)
->	}
+**Ans**. **runBlocking** is a part of coroutines, and it provides the suspending function under a lambda expression, so it blocks the main thread until it executes the suspending function.
+
+A few use cases of runBlocking are: In Auth Interceptors and Unit test cases
+
+```
+	runBlocking {
+		delay(1000L)
+		println(“Print Value”)
+	}
+ ```
 
 **Run** is a scope function in the standard Kotlin library. It can modify the original object and return any type, not only the object itself. On the other hand, apply always returns the object itself, which is excellent for chaining object configuration. Run can operate independently of an object, but apply always requires an object to work with.<br/>
 
-> run { println(“Print the value”) } or user.run { name = “Updated Value” }
+> run { println(“Print the value”) } or
+> user.run { name = “Updated Value” }
 
 # Coding Round Questions: 
 
 ### Q.) How many threads will be created in the below-mentioned statement?
->	for (i in 1..10000) {<br/>
->    	CoroutineScope(Dispatchers.IO).launch {<br/>
->        		println("Print Value $i")<br/>
->   	     }<br/>
->	}
+```
+for (i in 1..10000) {
+    CoroutineScope(Dispatchers.IO).launch {
+        println("Print Value $i")
+	 }
+   }
+```
 
  **Ans**. In the above-mentioned statement, one thread will be created because we use dispatchers to decide which thread to execute the task, like IO (Background), Main (UI), or the default thread. Here, multiple coroutines will be created as per the loop target value because multiple coroutines can be executed on one thread.<br/>
 
-### Q.) What is missing in the below-mentioned statement to execute the code?<br/>
->	fun main() = runBlocking {<br/>
->    	val task = GlobalScope.launch {<br/>
->			delay(2000L)<br/>
->        		println("Print Value")<br/>
->   	     }<br/>
->	}
+### Q.) What is missing in the below-mentioned statement to execute the code?
 
-**Ans**. In the above-mentioned statement, we need to add task.join().
+```
+ fun main() = runBlocking {
+    	val task = GlobalScope.launch {
+			delay(2000L)
+        		println("Print Value")
+   	     }
+	}
+ ```
+
+**Ans**. In the statement mentioned above, we need to add **task.join()**.
 
 ### Q.) Could you please write a code for a high-order function and a lambda function?
 **Ans**. **High-order function**: 
 
-> val res = addMe(2,4) { a, b -> a + b }
-> println(res) // Output will be 6
+```
+ val res = addMe(2,4) { a, b -> a + b }
+ println(res) // Output will be 6
 
->fun addMe(a:Int, b:Int, ab : (Int, Int) -> Int): Int  {
->    return ab(a,b)
->}
-
+fun addMe(a:Int, b:Int, ab : (Int, Int) -> Int): Int  {
+    return ab(a,b)
+}
+```
 
 **lambda function**:
 
->val square: (Int, Int) -> Int = { a, b -> a * b }
->
->val nine = sqaure(3, 3)
->
->println(nine) // Output will be 9
+```
+val square: (Int, Int) -> Int = { a, b -> a * b }
+
+val nine = sqaure(3, 3)
+
+println(nine) // Output will be 9
+```
 
 ### Q.) Print the vowels from given input string with count of each vowels?<br/>
-**Solutions**: <br/>
+**Solutions**: 
 
->fun main() {<br/>
-	val countVowels = countVowels("Satnam Singh”)<br/>
-	println(“Print the values $countVowels”)<br/>
-}<br/>
-fun countVowels(str: String): Map<Char, Int>{<br/>
-    val vowels = listOf('a','e','i','o','u')<br/>
-    val mapData = mutableMapOf<Char, Int>()<br/>
-    for (char in str.lowercase()){<br/>
-        if (char in vowels) {<br/>
-            mapData[char] = (mapData[char] ?: 1) +1<br/>
-        }<br/>
-    }<br/>
-    return mapData<br/>
+```
+fun main() {
+	val countVowels = countVowels("Satnam Singh”)
+	println(“Print the values $countVowels”)
 }
+fun countVowels(str: String): Map<Char, Int>{
+    val vowels = listOf('a','e','i','o','u')
+    val mapData = mutableMapOf<Char, Int>()
+    for (char in str.lowercase()) {
+        if (char in vowels) {
+            mapData[char] = (mapData[char] ?: 1) +1
+        }
+    }
+    return mapData
+}
+```
 
 ### Q.) Print the City and State from the given input string?<br/>
 >	Input  = "Haryana-Kaithal, Punjab-Amritsar, Haryana-Jind"<br/>
 >	OutPut = "{haryana=[Kaithal, Jind], punjab=[Amritsar]}"<br/>
 
-**Solutions**:<br/> 
+**Solutions**:
 
->fun main(){<br/>
-	val data = printStateWithCity("Haryana-Kaithal, Punjab-Amritsar, Haryana-Jind")<br/>	
-	println(data)<br/>
+```
+fun main() {
+	val data = printStateWithCity("Haryana-Kaithal, Punjab-Amritsar, Haryana-Jind")	
+	println(data)
 }
 
-fun printStateWithCity(input: String): Map<String, List<String>> {<br/>
-    val mapData = mutableMapOf<String, MutableList<String>>()<br/>
+fun printStateWithCity(input: String): Map<String, List<String>> {
+    val mapData = mutableMapOf<String, MutableList<String>>()
     val afterSplit = input.split(",")
 
     for (str in afterSplit) {
