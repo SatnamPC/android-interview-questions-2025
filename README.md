@@ -1,11 +1,25 @@
 # Android Interview Preparation 2025
 ![Minimal Modern Elegant Background Technology Youtube Channel Art png](https://github.com/user-attachments/assets/c0434cfc-4867-447d-bfab-1407ca461ea9)
 
+# Contents
+ - [General Questions](#general-interview-questions) 
+ - [Project Related Technical Questions](#project-related-technical-questions)
+ - [Flow API](#flow-api) 
+ - [Security related](#security-related)
+ - [Dependency Injection](#dependency-injection)
+ - [Database related](#database-related)
+ - [Kotlin Specific Questions](#kotlin-specific-questions)
+ - [Coding Round Questions](#coding-round-questions)
+
+# General Interview Questions
+
 ### Q.) Could you please brief or introduce yourself?
-**Ans**. Speak about yourself, including your experience and your specialization.
+**Ans**. Could you speak about yourself, including your experience and your specialization?
 
 ### Q.) What was your last project?
-**Ans**. Explain the domain of your last project, like health care, Banking, E-commerce, or a restaurant, and briefly explain a little bit about that project.
+**Ans**. Could you explain the domain of your last project, like health care, Banking, E-commerce, or a restaurant, and briefly explain a little bit about that project?
+
+# Project Related Technical Questions
 
 ### Q.) Which modules did you do in your previous project?
 **Ans**.  Describe your work here and what you have done in your previous project.
@@ -30,9 +44,9 @@ Our models (entities containing data) and Repository interfaces are included in 
 **Presentation Layer**
 The presentation layer serves as the interface between the user and the application, handling user input and displaying the corresponding outcomes.
 
-For a deeper and better understanding, please visit the below-provided link: https://medium.com/@ami0275/mvvm-clean-architecture-pattern-in-android-with-use-cases-eff7edc2ef76
+For a deeper and better understanding, please visit the link: https://medium.com/@ami0275/mvvm-clean-architecture-pattern-in-android-with-use-cases-eff7edc2ef76
 
-### Q.) What is the difference between MVC, MVP, MVVM with clean architecture and MVI?
+### Q.) What is the difference between MVC, MVP, MVVM, with clean architecture and MVI?
 **Ans**. **MVC** (Model-View-Controller) -> Model manages data and logic, the View displays information, and the controller connects the Model and View and handles the user input.<br />
 **MVP** (Model-View-Presenter) -> Model manages data, views display data and sends user commands to the Presenter. At the same time, the Presenter retrieves data from the Model and presents it to the View.<br />
 **MVI** (Model-View-Intent) MVI is a reactive architecture that embraces unidirectional data flow, ensuring that the UI remains consistent regardless of the state. Here, the Model represents the state, View reflects the state, and the intent represents user actions that change the state.<br />
@@ -84,7 +98,7 @@ MainFragment OnDetech
 MainActivity OnDestroy
 
 ### Q.) How do we share data between fragments?
-**Ans**: Using Shared ViewModel and Using nav arguments from Nav graph.
+**Ans**: Using Shared ViewModel and using nav arguments from the Nav graph.
 
 ### Q.) What are the SOLID principles, and how do they explain them?
 **Ans**. **SOLID** is an acronym for five design principles that help create maintainable, scalable, and robust code.<br />
@@ -113,7 +127,8 @@ data class Developer(val name: String, val age: Int) : Serializable
 **Ans** * The **compileSdkVersion** is the version of the API the app is compiled against. This means you can use Android API features included in that version of the API (as well as all previous versions, obviously). If you try and use API 16 features but set compileSdkVersion to 15, you will get a compilation error. If you set compileSdkVersion to 16, you can still run the app on an API 15 device as long as your app's execution paths do not attempt to invoke any APIs specific to API 16.<br />
 * The **targetSdkVersion** has nothing to do with how your app is compiled or what APIs you can utilize. The targetSdkVersion is supposed to indicate that you have tested your app on (presumably up to and including) the version you specify. This is more like a certification or sign-off that you are giving the Android OS as a hint to how it should handle your app in terms of OS features.
 
-## Flow API : 
+## Flow API 
+
 ### Q.) What is Flow, and how does it work?
 ### Q.) What is the use of StateFlow?
 ### Q.) What is the difference between StateFlow and Live data? 
@@ -122,7 +137,8 @@ data class Developer(val name: String, val age: Int) : Serializable
 ### Q.) How to do exception handling using flow?
 
 
-## Security related:  
+## Security related
+
 ### Q.) Which library do you use for network api calling?
 **Ans**. **Retrofit**: Its simplicity, flexibility, and strong integration with Kotlin’s coroutine support. Retrofit simplifies the process of making HTTP requests and processing responses.
 ### Q.) What are the interceptors, and how do they work?
@@ -186,7 +202,7 @@ val client = OkHttpClient.Builder()
 **Ans**. We can refresh the auth token inside the auth intercepter with the expired time and current time. 
 Please check with the mentioned link for deeper and better understanding: https://medium.com/@manuchekhrdev/access-token-expiration-refresh-token-retrofit-interceptor-coroutines-c3c75069de86 
 
-## Dependency Injection:
+## Dependency Injection
 ### Q.) What is dependency injection, and why do we need to use it?
 **Ans**. **Dependency injection** is a design pattern and technique used to manage and provide dependencies to various components of an Android application. It makes your code more flexible and reusable.
 Dependency Injection Advantages:
@@ -204,7 +220,7 @@ Dependency Injection Advantages:
 
 ### Q.) What is the scope of the hilt, and how many types?
 
-## Database related:
+## Database related
 ### Q.) What is the best way to store local data securely?
 **Ans**. **Room**: The Room persistence library provides an abstraction layer over SQLite to allow for more robust database access.
 
@@ -719,7 +735,7 @@ A few use cases of runBlocking are: In Auth Interceptors and Unit test cases
 > run { println(“Print the value”) } or
 > user.run { name = “Updated Value” }
 
-# Coding Round Questions: 
+# Coding Round Questions 
 
 ### Q.) How many threads will be created in the below-mentioned statement?
 ```
