@@ -10,6 +10,8 @@
  - [Database related](#database-related)
  - [Kotlin Specific Questions](#kotlin-specific-questions)
  - [Coding Round Questions](#coding-round-questions)
+ - [Jetpack Compose Interview Questions](#jetpack-compose-interview-questions)
+ - [Jetpack Compose Coding Round questions](#jetpack-compose-coding-round-questions)
 
 # General Interview Questions
 
@@ -835,3 +837,89 @@ fun printStateWithCity(input: String): Map<String, List<String>> {
     }
     return mapData
 }
+```
+
+# Jetpack Compose Interview Questions
+### Q.) What are the core building blocks of jetpack architecture?
+**Ans**. **Composables**: A Composable function is a special type of function in Kotlin that designs your UI components.
+**Layout System**: It is just like a container, which helps to keep all the composables to prepare UI as per our requirements.
+**Modifiers**: Modifiers are an integral part of the Compose toolkit, allowing developers to create complex UIs with less code and greater ease compared to traditional Android views.
+```
+For example,  	
+modifier = Modifier
+        .background(Color.LightGray)
+        .padding(16.dp)
+       	.border(2.dp, Color.Black)
+```
+![Data Binding](https://github.com/user-attachments/assets/57e97195-9081-4e95-882e-838a930e9af5)
+
+### Q.) How to handle orientation change in jetpack compose?
+**Ans**. We have **two ways** to handle orientation changes: 
+* rememberSaveable
+* ViewModels
+
+### Q.) Difference between remember and rememberSaveable?
+**Ans**. **remember**: Used for retaining state within a composable across recompositions.
+	 **rememberSaveable**: Used for preserving state across configuration changes.
+
+### Q.) What is State Management, and how does it work?
+**Ans**. **State management** refers to the process of tracking and updating data values within a composable function, which automatically triggers the UI to re-render whenever the state changes, ensuring the user interface stays synchronized with the current data.
+> For example, var count by remember { mutableStateOf(0) }
+
+### Q.) What are Lazy Column and Lazy Row, and why do we need them?
+**Ans**. **LazyColumn** produces a vertically scrolling list, and **LazyRow** produces a horizontally scrolling list.
+```
+For example,  LazyColumn(
+    modifier = Modifier.fillMaxSize()
+) {
+	items(list) { }
+}
+LazyRow(
+    modifier = Modifier.fillMaxSize()
+) {
+	items(list) { }
+}
+```
+
+### Q.) What are Flow Column and Flow Row, and why do we need them?
+**Ans**. FlowColumn and Flow Row both allow for flexible, adaptive layouts. When using a Flow Row, items are arranged horizontally, and if they exceed the width of the screen, they wrap onto the next line. Similarly, a Flow Column arranges items vertically and wraps items that exceed the column’s height.  
+**FlowColumn**
+In Jetpack Compose, a Column is a container that holds its children vertically, while FlowColumn allows its children to flow in a vertical manner.  
+**FlowRow**
+Similarly, Row is a container that holds its children in a Horizontal manner, and thus FlowRow allows its children to flow horizontally.  
+```
+For example,
+FlowRow(modifier = Modifier.padding(1.dp), maxItemsInEachRow = 3) { }
+FlowColumn(modifier = Modifier.padding(1.dp)) { }
+```
+
+### Q.) What are the uses of Modifier, Box, and Surface?
+**Ans**. **Modifiers** allow you to decorate or augment a composable. Modifiers help to change the composable's size, layout, behavior, and appearance.
+
+**Surface** is a basic building block for displaying content and can be used to wrap other composable elements to provide a background color, elevation, padding, and other layout properties.  
+![images](https://github.com/user-attachments/assets/fd51ba3c-05f4-4103-abe2-8a9b112ccbc3)
+
+**Box** is also just like a container, which helps to hold its children, and it requires additional modifiers and manual management. The Box is like the FrameLayout’s counterpart in composing UIs.
+
+### Q.) What is Pagination, and why do we need to use this?
+**Ans**. **Paging** is a technique used to load and display large datasets efficiently by fetching and rendering data incrementally. It’s particularly useful when working with remote APIs or databases that return data in chunks, as it avoids loading the entire dataset at once, reducing memory consumption and improving performance.
+
+# Jetpack Compose Coding Round questions: 
+> A. Could you create a UI for two edit texts with one button, and enter a string that should be printed in reverse on the other edit text?
+ 
+> B. Build a simple search screen using Jetpack Compose. The user types into a TextField, and results are fetched from the mocked API asynchronously. 
+```
+ Implement the following:  
+  1. Search Query Input:
+  2. Use a TextField to capture the user’s input.
+  3. Ensure that API requests are triggered only after the user stops typing for 300ms.
+
+Requirements: 
+1. API Call Handling:  Fetch the result from a mocked api function provided below. Display a loading spinner while fetching results. If the error occurs, show an error message with a retry button.
+2. UI State:  Display the fetched results in a LazyColumn.
+3. State Management: 
+	Manage the search query and results.
+	Ensure no redundant recomposition occurs.
+```
+
+> C. Counter Application(Increment/Decrement)
